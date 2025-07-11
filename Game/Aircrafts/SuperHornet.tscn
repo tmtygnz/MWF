@@ -1,26 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbfwmify5r75f"]
+[gd_scene load_steps=6 format=3 uid="uid://bbfwmify5r75f"]
 
 [ext_resource type="Script" uid="uid://c751v3ncmjuie" path="res://Game/Scripts/Aircraft/PlaneAeroController.cs" id="1_8eyd4"]
 [ext_resource type="PackedScene" uid="uid://drjhni20ea5r3" path="res://Models/boeing_fa-18f_super_hornet_-_free.glb" id="2_c7e2a"]
 [ext_resource type="Curve" uid="uid://bsb2x4h84pvxe" path="res://Game/Curves/Aircrafts/SuperHornet.tres" id="2_sq6jd"]
-
-[sub_resource type="Curve" id="Curve_c7e2a"]
-_limits = [0.0, 1.0, -180.0, 180.0]
-_data = [Vector2(-180, 0), 0.0, 0.0133378, 0, 0, Vector2(-145.922, 0.582791), 0.0, 0.0, 0, 0, Vector2(-89.1892, 1), -4.87914e-10, -4.87914e-10, 0, 0, Vector2(-52.6257, 0.538276), 0.0, 0.0, 0, 0, Vector2(2.70271, 0), 0.0, 0.0, 0, 0, Vector2(91.3514, 1), 0.0, 0.0, 0, 0, Vector2(180, 0), -0.0196963, 0.0, 0, 0]
-point_count = 7
+[ext_resource type="Curve" uid="uid://bjy3smgw8qkjy" path="res://Game/Curves/Aircrafts/SuperHornetDrag.tres" id="3_sq6jd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fuqhk"]
-size = Vector3(168.552, 23.209, 20.8915)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_c7e2a"]
-size = Vector3(28.3206, 7.74902, 65.9405)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c7e2a"]
-radius = 4.61792
-height = 27.398
+size = Vector3(170.228, 23.209, 20.8915)
 
 [node name="RigidBody3D2" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0346327, -0.0272999, 0.0113072)
 mass = 23000.0
 linear_damp_mode = 1
 script = ExtResource("1_8eyd4")
@@ -32,7 +20,7 @@ DragDown = 2.0
 DragLeft = 2.0
 DragRight = 2.0
 AOALiftCoeficient = ExtResource("2_sq6jd")
-AOALiftInducedDragCoeficient = SubResource("Curve_c7e2a")
+AOALiftInducedDragCoeficient = ExtResource("3_sq6jd")
 TurnVelocities = Vector3(30, 30, 30)
 Macceleration = Vector3(600, 600, 700)
 metadata/_edit_group_ = true
@@ -41,25 +29,5 @@ metadata/_edit_group_ = true
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 1.53145, 0, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 1.57336, 0, 0)
 shape = SubResource("BoxShape3D_fuqhk")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -0.134888, 0.0607007, 1.62351)
-shape = SubResource("BoxShape3D_c7e2a")
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -0.135, 0.061, -1.624)
-shape = SubResource("BoxShape3D_c7e2a")
-
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 3.10447, -0.540165, 0)
-shape = SubResource("CapsuleShape3D_c7e2a")
-
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.380728, -0.540165, 0.707213)
-shape = SubResource("CapsuleShape3D_c7e2a")
-
-[node name="CollisionShape3D6" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.380728, -0.540165, -0.688881)
-shape = SubResource("CapsuleShape3D_c7e2a")

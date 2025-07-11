@@ -44,6 +44,11 @@ public partial class PlaneAeroController : RigidBody3D
     [Export]
     public Curve AOALiftInducedDragCoeficient;
 
+    [Export]
+    public Curve AOARudderCoeficient;
+    [Export]
+    public Curve AOARudderLiftInducedDragCoeficient;
+
     private Vector3 lastVelocity = Vector3.Zero;
     private Vector3 localLinearVelocity = Vector3.Zero;
     private Vector3 localAngularVelocity = Vector3.Zero;
@@ -175,7 +180,7 @@ public partial class PlaneAeroController : RigidBody3D
     {
         var liftVelocity = new Plane(rightAxis).Project(localLinearVelocity);
         var liftCoeficient = AOALiftCoeficient.Sample(Mathf.RadToDeg(AoA));
-        float liftForce = 0.5f * liftCoeficient * airDensityCurrently * liftVelocity.LengthSquared() * wingSpanArea;
+        float liftForce = 0.5f * liftCoeficient * liftVelocity.LengthSquared() * wingSpanArea;
 
         var liftDirection = liftVelocity.Cross(rightAxis).Normalized();
         var lift = liftDirection * liftForce;

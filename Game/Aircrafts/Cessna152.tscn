@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bx58i8vya7hco"]
+
+[ext_resource type="Script" uid="uid://c751v3ncmjuie" path="res://Game/Scripts/Aircraft/PlaneAeroController.cs" id="1_ew6uo"]
+[ext_resource type="PackedScene" uid="uid://22b4oekqa8c4" path="res://Models/scene.gltf" id="2_pyo20"]
+
+[sub_resource type="Curve" id="Curve_vl0v4"]
+_limits = [-1.0, 1.0, -90.0, 90.0]
+_data = [Vector2(-90, 0), 0.0, 0.0, 0, 0, Vector2(-20, -1), 0.0, 0.0, 0, 0, Vector2(-2, 0.25), 0.164017, 0.0524241, 0, 0, Vector2(20, 1), 0.0, 0.0, 0, 0, Vector2(90, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5mwkp"]
+size = Vector3(7, 1, 1)
+
+[node name="RigidBody3D" type="RigidBody3D"]
+mass = 514.0
+script = ExtResource("1_ew6uo")
+MaxThrust = 1779.0
+wingSpanArea = 10.16
+turnPower = 10000.0
+initialVelocity = Vector3(100, 0, 0)
+DragForward = 1.0
+DragBackwards = 1.0
+DragTop = 2.0
+DragDown = 2.0
+DragLeft = 2.0
+DragRight = 2.0
+AOALiftCoeficient = SubResource("Curve_vl0v4")
+TurnVelocities = Vector3(30, 30, 120)
+Macceleration = Vector3(60, 60, 240)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("2_pyo20")]
+transform = Transform3D(-1.09278e-08, 0, -0.25, 0, 0.25, 0, 0.25, 0, -1.09278e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.30087, 0, 0)
+shape = SubResource("BoxShape3D_5mwkp")

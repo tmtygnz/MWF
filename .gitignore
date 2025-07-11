@@ -1,49 +1,58 @@
-# Godot-specific
-.import/
-export.cfg
-export_presets.cfg
+# Godot specific files
 .godot/
-.godot/mono/
+*.import
+*.export
+export_presets.cfg
+*/.gdignore
+/local/
+
+# C# specific files
 .vs/
-
-# User-specific
-*.cfg
-*.ini
-*.db
-*.godot
-
-# Mono / C# (Godot .NET)
-.mono/
-mono_crash.*
-*.csproj.user
-*.sln
-*.suo
-*.userprefs
-*.pidb
-*.mdb
-*.pdb
-*.exe
-*.dll
-*.cache/
-obj/
+.vscode/
 bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+*.csproj.user
+*.suo
+*.user
+*.pdb
+*.pidb
+*.log
+*.rpt
+*.opendb
+*.VC.db
+[Tt]humbs.db
+[Dd]esktop.ini
+*.bak
+*.old
+*.sa*
 
-# macOS
+# Assets that Godot generates or caches
+*.gltf.glb
+*.obj.zip
+*.blend1
+*.blend2
+
+# OS generated files
 .DS_Store
-
-# Windows
 Thumbs.db
-desktop.ini
+ehthumbs.db
+.localized
+.Spotlight-V100
+.Trashes
+__MACOSX
 
-# Linux
-*~
+# Rider IDE specific files
+.idea/
+*.iml
 
-# VSCode
+# Visual Studio Code specific files (already covered in C# section but good to be explicit)
 .vscode/
 
-# Rider
-.idea/
-*.sln.iml
-
-# Godot Build Artifacts (optional, if you're exporting builds)
-build/
+# Other common ignored files
+*~
+*.bak
+*.swp
+*.tmp
