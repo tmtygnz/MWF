@@ -1,0 +1,138 @@
+[gd_scene load_steps=8 format=3 uid="uid://crdoacx1ragjl"]
+
+[ext_resource type="PackedScene" uid="uid://bbfwmify5r75f" path="res://Game/Aircrafts/SuperHornet.tscn" id="1_37esa"]
+[ext_resource type="PackedScene" uid="uid://dkyoltc2g7o8x" path="res://mountain/terrain_test.glb" id="2_vrr3t"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrr3t"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_iv3md"]
+sky_material = SubResource("ProceduralSkyMaterial_vrr3t")
+
+[sub_resource type="Environment" id="Environment_37esa"]
+background_mode = 2
+sky = SubResource("Sky_iv3md")
+tonemap_mode = 2
+ssr_enabled = true
+glow_enabled = true
+
+[sub_resource type="ImporterMesh" id="ImporterMesh_jxerj"]
+
+[sub_resource type="Curve" id="Curve_hqwdr"]
+_limits = [-1.0, 1.0, -90.0, 90.0]
+_data = [Vector2(-90, 0), 0.0, 0.0, 0, 0, Vector2(-20, -1), 0.0, 0.0, 0, 0, Vector2(-5, 0), 0.103882, 0.103882, 0, 0, Vector2(20, 1), 0.0, 0.0, 0, 0, Vector2(90, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_37esa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="ImporterMeshInstance3D" type="ImporterMeshInstance3D" parent="MeshInstance3D"]
+mesh = SubResource("ImporterMesh_jxerj")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="CursorPosition" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 17.0
+offset_top = -33.0
+offset_right = 27.0
+offset_bottom = -10.0
+grow_vertical = 0
+text = "X"
+
+[node name="Velocity" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -11.5
+offset_right = -180.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AoA" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = 28.5
+offset_right = -180.0
+offset_bottom = 51.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Vector" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 180.0
+offset_top = 28.5
+offset_right = 220.0
+offset_bottom = 51.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Altitude" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 180.0
+offset_top = -11.5
+offset_right = 220.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 2
+
+[node name="RigidBody3D2" parent="." instance=ExtResource("1_37esa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2342.75, 1550.08, 0)
+mass = 20411.0
+gravity_scale = 0.0
+MaxThrust = 244111.0
+Throttle = 1.0
+wingSpanArea = 37.0
+turnPower = 10000.0
+initialVelocity = Vector3(200, 0, 0)
+DragBackwards = 2.0
+AOALiftCoeficient = SubResource("Curve_hqwdr")
+TurnVelocities = Vector3(30, 30, 120)
+Macceleration = Vector3(60, 60, 240)
+
+[node name="PlaneCamera" type="Camera3D" parent="RigidBody3D2"]
+transform = Transform3D(0.259792, 0.0575508, -0.963948, -0.0148795, 0.998343, 0.0555942, 0.96555, -9.99158e-05, 0.260218, -9.1416, 4.09741, 2.71617)
+far = 100000.0
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("2_vrr3t")]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0)

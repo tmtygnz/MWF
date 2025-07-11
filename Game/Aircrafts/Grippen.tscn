@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5s36eafvi700"]
+
+[ext_resource type="Script" uid="uid://c751v3ncmjuie" path="res://Game/Scripts/Aircraft/PlaneAeroController.cs" id="1_i0k1g"]
+[ext_resource type="PackedScene" uid="uid://bgxtw6kwx6tu7" path="res://Models/T-50 Golden Eagle v1.fbx" id="1_t1eso"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ghvq8"]
+size = Vector3(0.0895462, 0.0128174, 0.0754395)
+
+[node name="Grippen" type="RigidBody3D"]
+mass = 8000.0
+gravity_scale = 0.19
+script = ExtResource("1_i0k1g")
+MaxThrust = 98000.0
+Throttle = 1.0
+
+[node name="T-50 Golden Eagle v2" parent="." instance=ExtResource("1_t1eso")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034363, -0.045145, 0.00266886)
+shape = SubResource("BoxShape3D_ghvq8")

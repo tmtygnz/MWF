@@ -1,0 +1,49 @@
+# Godot-specific
+.import/
+export.cfg
+export_presets.cfg
+.godot/
+.godot/mono/
+.vs/
+
+# User-specific
+*.cfg
+*.ini
+*.db
+*.godot
+
+# Mono / C# (Godot .NET)
+.mono/
+mono_crash.*
+*.csproj.user
+*.sln
+*.suo
+*.userprefs
+*.pidb
+*.mdb
+*.pdb
+*.exe
+*.dll
+*.cache/
+obj/
+bin/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# VSCode
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# Godot Build Artifacts (optional, if you're exporting builds)
+build/
