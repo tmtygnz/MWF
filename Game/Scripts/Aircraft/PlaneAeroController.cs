@@ -106,7 +106,7 @@ public partial class PlaneAeroController : RigidBody3D
         tempLabel.Position = screenPos;
 
         Label velocityLabel = GetNode<Label>("/root/Node3D/Control/Velocity");
-        velocityLabel.Text = (localLinearVelocity.Length() / 1.94f).ToString() + " kts";
+        velocityLabel.Text = (localLinearVelocity.X / 1.94f).ToString() + " kts";
         _updateDrag();
 
         Label altitudeLabel = GetNode<Label>("/root/Node3D/Control/Altitude");
