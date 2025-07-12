@@ -106,7 +106,7 @@ public partial class PlaneAeroController : RigidBody3D
         tempLabel.Position = screenPos;
 
         Label velocityLabel = GetNode<Label>("/root/Node3D/Control/Velocity");
-        velocityLabel.Text = (localLinearVelocity.X / 1.94f).ToString() + " kts";
+        velocityLabel.Text = (-localLinearVelocity.Z / 1.94f).ToString() + " kts";
         _updateDrag();
 
         Label altitudeLabel = GetNode<Label>("/root/Node3D/Control/Altitude");
@@ -149,10 +149,11 @@ public partial class PlaneAeroController : RigidBody3D
     {
         Vector3 dragCoefficient = VectorUtils.ScaleEach(
             localLinearVelocity.Normalized(),
-            DragForward, DragBackwards,
+            DragLeft, DragRight,
             DragTop, DragDown,
-            DragLeft, DragRight);
-        Vector3 drag = -localLinearVelocity.Normalized() *dragCoefficient.Length() * localLinearVelocity.LengthSquared();
+            DragBackwards, DragForward
+            );
+        Vector3 drag = -localLinearVelocity.Normalized() * dragCoefficient.Length() * localLinearVelocity.LengthSquared();
 
 
         Quaternion rotation = GlobalTransform.Basis.GetRotationQuaternion();
@@ -169,17 +170,17 @@ public partial class PlaneAeroController : RigidBody3D
         float thrustApplied = Throttle * MaxThrust;
 
         Quaternion rotation = this.GlobalTransform.Basis.GetRotationQuaternion();
-        ApplyCentralForce(rotation * (thrustApplied * Vector3.Right));
+        ApplyCentralForce(rotation * (thrustApplied * Vector3.Forward));
 
-        Vector3 thrustForce = rotation * (thrustApplied * Vector3.Right);
+        Vector3 thrustForce = rotation * (thrustApplied * Vector3.Forward);
         DebugDraw3D.DrawArrow(GlobalTransform.Origin, GlobalTransform.Origin + thrustForce / Mass, Colors.Yellow, 0.2f);
         GD.Print($"Thrust: {thrustForce} || [{t:F2}seconds]");
     }
 
-    private Vector3 CalculateLift(Vector3 rightAxis, float AoA, float power)
+    private Vector3 CalculateLift(Vector3 rightAxis, float AoA, float power, Curve liftCoeficientCurve)
     {
         var liftVelocity = new Plane(rightAxis).Project(localLinearVelocity);
-        var liftCoeficient = AOALiftCoeficient.Sample(Mathf.RadToDeg(AoA));
+        var liftCoeficient = liftCoeficientCurve.Sample(Mathf.RadToDeg(AoA));
         float liftForce = 0.5f * liftCoeficient * liftVelocity.LengthSquared() * wingSpanArea;
 
         var liftDirection = liftVelocity.Cross(rightAxis).Normalized();
@@ -197,10 +198,10 @@ public partial class PlaneAeroController : RigidBody3D
         if (localLinearVelocity.LengthSquared() < 1f)
         {
             GD.Print("Shall not run lift");
-            return ;
+            return;
         }
-        Vector3 upLift = CalculateLift(Vector3.Forward, angleOfAttack, wingSpanArea);
-        Vector3 rudderLift = CalculateLift(Vector3.Up, angleOfAttackYaw, 50f);
+        Vector3 upLift = CalculateLift(Vector3.Right, angleOfAttack, wingSpanArea, AOALiftCoeficient);
+        Vector3 rudderLift = CalculateLift(Vector3.Down, angleOfAttackYaw, 50f, AOARudderCoeficient);
 
         Quaternion rotation = GlobalTransform.Basis.GetRotationQuaternion();
         ApplyCentralForce(rotation * upLift);
@@ -232,10 +233,10 @@ public partial class PlaneAeroController : RigidBody3D
     {
 
         Vector3 userControls = new Vector3(
-            Input.GetAxis("roll_left", "roll_right"),
+            Input.GetAxis("pitch_down", "pitch_up"),
             Input.GetAxis("yaw_left", "yaw_right"),
-            Input.GetAxis("pitch_down", "pitch_up")
-        );
+            Input.GetAxis("roll_right", "roll_left")
+            );
 
         Vector3 targetav = userControls * TurnVelocities * turnPower;
 
@@ -260,7 +261,9 @@ public partial class PlaneAeroController : RigidBody3D
             ),
             _calculateSteerError(targetav.Z, localAngularVelocity.Z, Macceleration.Z, dt)
         );
-        ApplyTorque(Transform.Basis * (netTorqueWithCorrections) * turnAuthority(localLinearVelocity.X) * turnPower);
+        var torque = Transform.Basis * (netTorqueWithCorrections) * turnAuthority(-localLinearVelocity.Z) * turnPower;
+        GD.Print(torque);
+        ApplyTorque(torque);
     }
 
     private float _calculateGForces(double dt)
@@ -272,7 +275,7 @@ public partial class PlaneAeroController : RigidBody3D
 
     private void _calculateAOA()
     {
-        angleOfAttack = MathF.Atan2(-localLinearVelocity.Y, localLinearVelocity.X);
-        angleOfAttackYaw = Mathf.Atan2(-localLinearVelocity.Z, localLinearVelocity.X);
+        angleOfAttack = MathF.Atan2(localLinearVelocity.Y, -localLinearVelocity.Z);
+        angleOfAttackYaw = Mathf.Atan2(localLinearVelocity.X, -localLinearVelocity.Z);
     }
 }
